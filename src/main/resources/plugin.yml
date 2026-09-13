@@ -1,0 +1,101 @@
+name: RJ_AC
+version: 1.0.0
+main: dev.rjac.RJ_AC
+api-version: '1.21'
+author: RJ_79
+description: Advanced Anticheat for Paper 1.21.11
+depend: [ProtocolLib]
+
+commands:
+  rjac:
+    description: RJ_AC main command
+    usage: /rjac <subcommand> [args]
+    aliases: [rjanticheat]
+    permission: rjac.use
+
+permissions:
+
+  # ── Basic ──────────────────────────────────────────────────────
+  rjac.use:
+    description: Access /rjac help and /rjac info
+    default: true
+
+  # ── Per-subcommand ─────────────────────────────────────────────
+  rjac.ban:
+    description: /rjac ban — permanently or temporarily ban a player
+    default: op
+
+  rjac.unban:
+    description: /rjac unban — remove a ban
+    default: op
+
+  rjac.kick:
+    description: /rjac kick — kick a player from the server
+    default: op
+
+  rjac.mute:
+    description: /rjac mute — temporarily or permanently mute a player
+    default: op
+
+  rjac.unmute:
+    description: /rjac unmute — remove a mute
+    default: op
+
+  rjac.warn:
+    description: /rjac warn — send a formal warning to a player
+    default: op
+
+  rjac.check:
+    description: /rjac check — view a player's violation list
+    default: op
+
+  rjac.alerts:
+    description: /rjac alerts — toggle receiving staff alerts in chat
+    default: op
+
+  rjac.gui:
+    description: /rjac gui — open the suspicious-players chest GUI
+    default: op
+
+  rjac.clear:
+    description: /rjac clear — wipe a player's violation history
+    default: op
+
+  rjac.reload:
+    description: /rjac reload — reload config.yml without restarting
+    default: op
+
+  # ── Special ────────────────────────────────────────────────────
+  rjac.bypass:
+    description: Bypass all anticheat checks entirely
+    default: false
+
+  # ── Bundles ────────────────────────────────────────────────────
+  rjac.staff:
+    description: Standard staff bundle — alerts, check, kick, warn, mute/unmute
+    default: false
+    children:
+      rjac.use: true
+      rjac.alerts: true
+      rjac.check: true
+      rjac.kick: true
+      rjac.warn: true
+      rjac.mute: true
+      rjac.unmute: true
+
+  rjac.mod:
+    description: Moderator bundle — staff + ban/unban + gui + clear
+    default: false
+    children:
+      rjac.staff: true
+      rjac.ban: true
+      rjac.unban: true
+      rjac.gui: true
+      rjac.clear: true
+
+  rjac.admin:
+    description: Full admin bundle — all permissions including reload
+    default: op
+    children:
+      rjac.mod: true
+      rjac.reload: true
