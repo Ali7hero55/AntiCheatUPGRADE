@@ -2,17 +2,23 @@ package dev.rjac.listeners;
 
 import dev.rjac.RJ_AC;
 import dev.rjac.data.PlayerData;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityResurrectEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
 
     private final RJ_AC plugin;
 
-    public PlayerListener(RJ_AC plugin) { this.plugin = plugin; }
+    public PlayerListener(RJ_AC plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
@@ -34,7 +40,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onBowShoot(PlayerShootBowEvent e) {
+    public void onBowShoot(EntityShootBowEvent e) {
         if (!(e.getEntity() instanceof Player player)) return;
         PlayerData data = plugin.getPlayerDataManager().get(player);
         plugin.getCheckManager().fastBow.onBowShoot(player, data);
@@ -44,8 +50,7 @@ public class PlayerListener implements Listener {
     public void onItemConsume(PlayerItemConsumeEvent e) {
         Player player = e.getPlayer();
         PlayerData data = plugin.getPlayerDataManager().get(player);
-        // Track totem equip for AutoTotem check
-        if (e.getItem().getType() == org.bukkit.Material.TOTEM_OF_UNDYING) {
+        if (e.getItem().getType() == Material.TOTEM_OF_UNDYING) {
             data.setLastTotemEquipTime(System.currentTimeMillis());
         }
     }
