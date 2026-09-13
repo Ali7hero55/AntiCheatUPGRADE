@@ -1,34 +1,31 @@
 name: Build RJ_AC Plugin
 
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v5
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Extract RJ_AC.zip
+        run: unzip -o RJ_AC.zip -d .
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
         with:
-          java-version: "17"
-          distribution: "temurin"
-
-      - name: Extract source ZIP
-        run: unzip "RJ AC.zip" -d plugin_src
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
 
       - name: Build with Maven
-        working-directory: plugin_src
         run: mvn clean package -B
 
-      - name: Upload JAR artifact
+      - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
-          name: RJ_AC-1.21.11
-          path: plugin_src/target/RJ_AC-*.jar
-          retention-days: 7
+          name: RJ_AC-Plugin
+          path: target/RJ_AC-1.0.0.jar
+          if-no-files-found: error
